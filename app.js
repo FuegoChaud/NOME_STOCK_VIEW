@@ -14,11 +14,14 @@ addItemButton.addEventListener('click', () =>{
     cell3.innerHTML = document.getElementById("Stock").value;
     cell4.innerHTML = '<Button id=button-plus class="material-icons"> add_circle_outline </Button>';
     cell5.innerHTML = '<button id=button-moins class="material-icons"> remove_circle_outline</button>';
+   
+    // reset les inputs
+    document.getElementById("Image").value=''; 
+    document.getElementById("Description").value='';
+    document.getElementById("Stock").value='';
+
 }); 
 
-addButton= document.getElementb
 
-addButton.addEventListener('click' () =>{
 
-})
 
