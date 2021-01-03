@@ -1,0 +1,1 @@
+# NOME_STOCK_VIEW
