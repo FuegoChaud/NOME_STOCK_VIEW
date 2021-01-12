@@ -1,29 +1,134 @@
-var addItemButton = document.getElementById('button-ajout') ;
-var NewLine= document.getElementById('Template'); 
-var Table= document.getElementById('Table1')
+// Item class: Represents a item
+class Itm { 
+    constructor(link, nom, stock){
+        this.link= link;
+        this.nom= nom; 
+        this.stock= stock; 
+    }
+}
+// UI Class: faire les function
+class UI { 
+    static displayItms() {
+        const itms= Store.getItms();
+    
+        itms.forEach((itm) => UI.addItmToList(itm));
+    }
+    static addItmToList(itm) {
+        const list= document.querySelector('#itm-list');
+
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${itm.link}</td>
+            <td>${itm.nom}</td>
+            <td>${itm.stock}</td>
+            <td><button class="btn btn-secondary"><img src="add_box-24px.svg" width="100" onclick="incrementStock(this)"></button></td>
+            <td><button class="btn btn-secondary"><img src="indeterminate_check_box-24px.svg" width="100"  onClick="decrementStock(this)"></button></td>
+            <td><a href='#'class="btn btn-danger" id="btn-danger">x</a></td>
+        `;
+
+        list.appendChild(row);
+    }
+    static deleteItm(el) {
+        if(el.classList.contains('btn-danger')){
+            el.parentElement.parentElement.remove()
+            UI.showAlert('Item supprimé!', 'danger');
+        }
+    }
+
+    static showAlert(message, className) {
+        const div = document.createElement('div');
+        div.className = `alert alert-dismissible alert-${className}`;
+        div.appendChild(document.createTextNode(message));
+        const container = document.querySelector('.container');
+        const form = document.querySelector('#itm-form');
+        container.insertBefore(div, form); 
+        
+    
+        // Vanish in 3 seconds
+        setTimeout(() => document.querySelector('.alert').remove(), 2000);
+      }
+
+    static clearInputs() {
+        document.querySelector('#link').value=''; 
+        document.querySelector('#nom').value=''; 
+        document.querySelector('#stock').value=''; 
+    }
+}
+// Store Class: local storage
+
+class Store {
+    static getItms(){
+        let itms;
+        if(localStorage.getItem('itms')=== null){
+            itms =[]; 
+        } else {
+            itms= JSON.parse(localStorage.getItem('itms'));
+        }
+        return itms;
+    }
+
+    static addItm(itm){
+        const itms = Store.getItms();
+        itms.push(itm);
+
+        localStorage.setItem('itms', JSON.stringify(itms));
+    }
+
+    static removeItm(stock) {
+        const itms= Store.getItms(); 
+        
+        itms.forEach((itm, index) => {
+            if(itm.stock === stock) {
+                itms.splice(index, 1);
+            }
+        });
+
+        localStorage.setItem('itms', JSON.stringify(itms));
+    }
+}
+
+//Event: pour display les items
+
+document.addEventListener('DOMContentLoaded', UI.displayItms);
+
+//Event: pour add an item 
+document.querySelector('#itm-form').addEventListener('submit', (e) =>{
+
+    e.preventDefault();
+
+    // get element itm
+    const link= document.querySelector('#link').value;
+    const nom= document.querySelector('#nom').value;
+    const stock= document.querySelector('#stock').value;
+
+    //Validation
+    if(link === '' || nom ==='' || stock ==='') {
+        UI.showAlert('Remplir toutes les cases!', 'warning');
+    } else {
+
+    // Creat Itm object
+    const itm = new Itm(link, nom, stock);
+
+    //add item to store
+    Store.addItm(itm); 
+
+    // add to UI 
+    UI.addItmToList(itm); 
+    UI.showAlert('Item ajouté!', 'success')
+
+    // clear input 
+    UI.clearInputs(); 
+    }
+} )
+
+//Event: pour remove a book DELETE BUTTON
+document.querySelector('#itm-list').addEventListener('click', (e) =>{
+    UI.deleteItm(e.target);
+    Store.removeItm(e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent); 
+})
 
 const TABLE_ROW_NODE_NAME = 'TR' 
-
-// Ajout d'un item
-addItemButton.addEventListener('click', () =>{
-    var row = Table.insertRow(1)
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    cell1.innerHTML = document.getElementById("Image").value;
-    cell2.innerHTML = document.getElementById("Description").value;
-    cell3.innerHTML = document.getElementById("Stock").value;
-    cell4.innerHTML ='<button id="button-plus"><img src="add_box-24px.svg" width="70" onclick="incrementStock(this)"</button>';
-    cell5.innerHTML ='<button id="button-moins"><img src="indeterminate_check_box-24px.svg" width="70"  onClick="decrementStock(this)"> </button>'
-
-//Reset les inputs
-    document.getElementById("Image").value=''; 
-    document.getElementById("Description").value='';
-    document.getElementById("Stock").value='';
-
-}); 
 
 // +1 et -1 
 function incrementStock(el) {
@@ -63,70 +168,3 @@ function getParentTableRowRecursive(el) {
 
     return undefined
 }  
-
-// // Storage des items 
-class item{
-    constructor(link,name,stock) {
-        this.link=link;
-        this.name= name; 
-        this.stock= stock; 
-    }
-}
-
-class Store {
-    static getBooks() {
-      let books;
-      if(localStorage.getItem('books') === null) {
-        books = [];
-      } else {
-        books = JSON.parse(localStorage.getItem('books'));
-      }
-  
-      return books;
-    }
-  
-    static addBook(book) {
-      const books = Store.getBooks();
-      books.push(book);
-      localStorage.setItem('books', JSON.stringify(books));
-    }
-  
-    static removeBook(isbn) {
-      const books = Store.getBooks();
-  
-      books.forEach((book, index) => {
-        if(book.isbn === isbn) {
-          books.splice(index, 1);
-        }
-      });
-  
-      localStorage.setItem('books', JSON.stringify(books));
-    }
-  }
-  
-
-// Connexion server
-// const http = require('http')
-// const fs= require('fs')
-// const port= 3000
-
-// const server = http.createServer(function(res,res){
-//     res.writeHead(200, {'Content-Type': 'Texte/html'})
-//     fs.readFile('index.html', function (error, data){
-//         if (error){
-//             res.writeHead(404)
-//             res.write('Error: File not found, Poulet')
-//         } else {
-//             res.write(data)
-//         }
-//         res.end()
-//     })
-// })
-
-// server.listen(port, function(error){
-//     if (error) {
-//         console.log('Something went wrong!', error)
-//     } else { 
-//         console.log('Server is listening on port'+ port)
-//     }
-// })

@@ -1,68 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"> <!-- Icon library-->
     <title>NOME STOCK VIEW</title>
 </head>
 
 <body>
-    <img class="logo-size" src="LOGO_ORIGINAL_BLACK_011.png" />
-</div>
-<h1>NOME STOCK VIEW</h1>
-
-<h2 class='top-message'>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis ut vel at blanditiis adipisci quod voluptatum, autem ea in quos deleniti voluptatibus deserunt. Aspernatur perspiciatis aut, maxime provident velit vero.
-</h2>
-
-<table id='Table1'>
-    <tr>
-        <th>IMAGE</th>
-        <th>DESCRIPTION DU PRODUITS</th>
-        <th>STOCK</th>
-        <th>ADD</th>
-        <th>SUB</th>
-    </tr>
-    <!-- <tr>
-        <th><img class='linked-image' src='https://www.mcmaster.com/mvA/Contents/gfx/ImageCache/925/92579A102p1-b01-digitall@1x_637015735175425815.png?ver=ImageNotFound'> </span></th>
-        <th>BLACK OXYDE BOLT</th>
-        <th>10</th> 
-        <th><Button id='addButton' class="material-icons">
-            add_circle_outline
-        </Button>
-    </th>
-    <th> <button id='subButton' class="material-icons">
-        remove_circle_outline
-    </button> 
-</th>
-</tr> -->
-</table>
-
-<div>  
-    <table id='Table2'>
-        <tr>
-            <th>Link</th>
-            <th>NAME</th>
-            <th>STOCK</th>
-        </tr>
-        <tr id='Template'>
-            <th><input id=Image></th>
-            <th><input id=Description></th>
-            <th><input id=Stock></th> 
-            <button id='button-ajout'>
-                <img src='playlist_add-black-18dp.svg'
-                height="50"
-                ></button>
-            </tr>
-        </table>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <img class="logo-size" src="LOGO_ORIGINAL_WHITE_011.png" />
+        <a class="navbar-brand" href="#">NOME STOCK VIEW</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">AAALLLO</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> 
+          </form>
+        </div> -->
+      </nav>
+    <div>
+        <div  id="table" class="mt-3">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-secondary">
+                        <th></th>
+                        <th>Name / Description</th>
+                        <th>Current Stock</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                  </thead>
+                <tbody id="itm-list" class="table-primary"></tbody>
+              </table>
+        </div>
+      
+        <div class="container">      
+            <form id="itm-form">   
+                <div>
+                    <label for="link">Link</label>
+                    <input type="text" id="link" class="form-control">    
+                </div>
+                <div>               
+                    <label for="nom">Name</label>
+                    <input type="text" id="nom" class="form-control">  
+                </div>
+                <div>
+                    <label for="stock">Stock</label>
+                    <input type="number" id="stock" class="form-control">
+                </div> 
+                <div class="mt-3">
+                    <input type="submit" value="Ajouter item" class="btn btn-warning btn-block">
+                </div> 
+            </form>
+        </div>  
     </div>
-    
-    <script src="app.js"></script>
-</body>
+ <script src="app.js"></script>
 </html>
